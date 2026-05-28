@@ -1,7 +1,7 @@
 ---
-
+import { Image } from 'astro:assets';
+import myImage from '../photos/test.jpg';
 ---
-
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
@@ -12,6 +12,8 @@
 		<title>Astro</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<h1>Astro wesh</h1>
+		<Image src={myImage} alt="A bird sitting on a nest of eggs." />
+
 	</body>
 </html>

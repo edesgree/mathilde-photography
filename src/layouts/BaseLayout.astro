@@ -30,6 +30,8 @@ const fullTitle = title === 'Mathilde Godard' ? title : `${title} — Mathilde G
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 
+    
+
     <!-- Open Graph -->
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -42,6 +44,8 @@ const fullTitle = title === 'Mathilde Godard' ? title : `${title} — Mathilde G
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={image} />
+
+    <slot name="head" />
   </head>
   <body>
     <Nav />

@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Gallery from '../../components/Gallery.astro';
+
+const photos = [
+  { src: '/images/fashion/photo-01.jpg', alt: 'fashion 01', width: 1200, height: 900 },
+  { src: '/images/fashion/photo-02.jpg', alt: 'fashion 02', width: 1200, height: 900 },
+  { src: '/images/fashion/photo-03.jpg', alt: 'fashion 03', width: 1200, height: 900 },
+  { src: '/images/fashion/photo-04.jpg', alt: 'fashion 04', width: 1200, height: 900 },
+  { src: '/images/fashion/photo-05.jpg', alt: 'fashion 05', width: 1200, height: 900 },
+  { src: '/images/fashion/photo-06.jpg', alt: 'fashion 06', width: 1200, height: 900 },
+  { src: '/images/fashion/photo-07.jpg', alt: 'fashion 07', width: 1200, height: 900 },
+  { src: '/images/fashion/photo-08.jpg', alt: 'fashion 08', width: 1200, height: 900 },
+  { src: '/images/fashion/photo-09.jpg', alt: 'fashion 09', width: 1200, height: 900 },
+  { src: '/images/fashion/photo-10.jpg', alt: 'fashion 10', width: 1200, height: 900 },
+  { src: '/images/fashion/photo-11.jpg', alt: 'fashion 11', width: 1200, height: 900 },
+  { src: '/images/fashion/photo-12.jpg', alt: 'fashion 12', width: 1200, height: 900 },
+  { src: '/images/fashion/photo-13.jpg', alt: 'fashion 13', width: 1200, height: 900 },
+  { src: '/images/fashion/photo-14.jpg', alt: 'fashion 14', width: 1200, height: 900 }
+];
+---
+
+<BaseLayout title="fashion">
+  <div class="gallery-page">
+    <div class="gallery-page__header container">
+      <a href="/portfolio" class="gallery-page__back eyebrow">← Photography</a>
+      <h1 class="gallery-page__title display">fashion</h1>
+    </div>
+    <div class="gallery-page__grid">
+      <Gallery photos={photos} columns={3} />
+    </div>
+  </div>
+</BaseLayout>
+
+<style lang="scss">
+.gallery-page { padding-top: calc(var(--nav-height) + 3rem); }
+.gallery-page__header { padding-bottom: 2rem; }
+.gallery-page__back { display: inline-block; margin-bottom: 1rem; color: var(--c-muted); transition: color 0.2s; }
+.gallery-page__back:hover { color: var(--c-accent); }
+.gallery-page__title { font-size: clamp(40px, 8vw, 96px); color: var(--c-white); }
+.gallery-page__grid { margin-top: 2rem; }
+</style>

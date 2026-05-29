@@ -1,0 +1,31 @@
+// ─────────────────────────────────────────
+// _variables.scss
+// Single source of truth for all tokens.
+// CSS custom properties are set in :root (global.scss)
+// so they're available in vanilla CSS too.
+// ─────────────────────────────────────────
+
+// Colours
+$bg:        #0e0e0e;
+$surface:   #161616;
+$border:    #2a2a2a;
+$text:      #e8e4de;
+$muted:     #7a7570;
+$accent:    #c9a96e;
+$white:     #f5f2ee;
+
+// Typography
+$font-display: 'Cormorant Garamond', Georgia, serif;
+$font-ui:      'DM Sans', sans-serif;
+
+// Layout
+$nav-height:   72px;
+$max-w:        1400px;
+
+// Easing
+$ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+// Breakpoints
+$bp-mobile:  480px;
+$bp-tablet:  768px;
+$bp-desktop: 900px;

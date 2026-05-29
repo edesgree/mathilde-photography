@@ -1,0 +1,66 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer__inner container">
+    <div class="footer__brand">
+      <span class="footer__name display">Mathilde Godard</span>
+      <span class="eyebrow">Photographe · Nantes, France</span>
+    </div>
+    <nav class="footer__nav" aria-label="Footer navigation">
+      <a href="/portfolio">Photography</a>
+      <a href="/videos">Video</a>
+      <a href="/about">About</a>
+      <a href="mailto:contact@mathildegodard.com">Contact</a>
+    </nav>
+    <p class="footer__copy">© {year} Mathilde Godard. All rights reserved.</p>
+  </div>
+</footer>
+
+<style lang="scss">
+.footer {
+  margin-top: 8rem;
+  border-top: 1px solid var(--c-border);
+  padding: 3rem 0 2rem;
+}
+.footer__inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 2rem;
+}
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.footer__name { font-size: clamp(24px, 4vw, 36px); }
+.footer__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: right;
+}
+.footer__nav a {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  transition: color 0.2s;
+}
+.footer__nav a:hover { color: var(--c-accent); }
+.footer__copy {
+  grid-column: 1 / -1;
+  font-size: 11px;
+  color: var(--c-muted);
+  letter-spacing: 0.05em;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--c-border);
+}
+@media (max-width: 600px) {
+  .footer__inner { grid-template-columns: 1fr; }
+  .footer__nav { text-align: left; flex-direction: row; flex-wrap: wrap; gap: 1rem; }
+}
+</style>

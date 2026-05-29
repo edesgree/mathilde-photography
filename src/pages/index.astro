@@ -1,19 +1,239 @@
 ---
-import { Image } from 'astro:assets';
-import myImage from '../photos/test.jpg';
----
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro wesh</h1>
-		<Image src={myImage} alt="A bird sitting on a nest of eggs." />
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-	</body>
-</html>
+// Hero slides — replace src with your actual images from /public/images/
+const slides = [
+  { src: '/images/hero/hero-1.jpg', alt: 'Portrait photography by Mathilde Godard' },
+  { src: '/images/hero/hero-2.jpg', alt: 'Fashion photography' },
+  { src: '/images/hero/hero-3.jpg', alt: 'Travel photography' },
+  { src: '/images/hero/hero-4.jpg', alt: 'Architecture photography' },
+];
+
+const categories = [
+  { label: 'Portraits',     href: '/portfolio/portraits',     src: '/images/covers/portraits.jpg' },
+  { label: 'Fashion',       href: '/portfolio/fashion',       src: '/images/covers/fashion.jpg' },
+  { label: 'Travels',       href: '/portfolio/travels',       src: '/images/covers/travels.jpg' },
+  { label: 'Architectures', href: '/portfolio/architectures', src: '/images/covers/architectures.jpg' },
+  { label: 'Landscapes',    href: '/portfolio/landscapes',    src: '/images/covers/landscapes.jpg' },
+];
+---
+
+<BaseLayout>
+  <!-- ── Hero ── -->
+
+  <section class="hero" aria-label="Hero slideshow">
+    <div class="hero__slides" id="hero-slides">
+      {slides.map((slide, i) => (
+        <div class={`hero__slide ${i === 0 ? 'is-active' : ''}`} data-index={i}>
+          <img src={slide.src} alt={slide.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+        </div>
+      ))}
+    </div>
+
+    <div class="hero__overlay"></div>
+
+ 
+
+    <div class="hero__dots" aria-label="Slide navigation">
+      {slides.map((_, i) => (
+        <button
+          class={`hero__dot ${i === 0 ? 'is-active' : ''}`}
+          data-dot={i}
+          aria-label={`Go to slide ${i + 1}`}
+        ></button>
+      ))}
+    </div>
+
+    <a href="/portfolio" class="hero__scroll" aria-label="View portfolio">
+      <span class="eyebrow">Portfolio</span>
+      <span class="hero__scroll-line"></span>
+    </a>
+  </section>
+
+  <!-- ── Categories ── -->
+  <section class="categories container">
+    <h2 class="categories__heading display">Photography</h2>
+    <div class="categories__grid">
+      {categories.map(cat => (
+        <a href={cat.href} class="cat-card">
+          <div class="cat-card__img">
+            <img src={cat.src} alt={cat.label} loading="lazy" />
+          </div>
+          <div class="cat-card__label">
+            <span class="eyebrow">{cat.label}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const slides = document.querySelectorAll('.hero__slide');
+  const dots   = document.querySelectorAll('.hero__dot');
+  let current  = 0;
+  let timer: ReturnType<typeof setInterval>;
+
+  function goTo(n: number) {
+    slides[current].classList.remove('is-active');
+    dots[current].classList.remove('is-active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('is-active');
+    dots[current].classList.add('is-active');
+  }
+
+  function startAuto() {
+    timer = setInterval(() => goTo(current + 1), 5000);
+  }
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      clearInterval(timer);
+      goTo(Number((dot as HTMLElement).dataset.dot));
+      startAuto();
+    });
+  });
+
+  startAuto();
+</script>
+
+<style lang="scss">
+/* ── Hero ── */
+.hero {
+  position: relative;
+  height: 100svh;
+  min-height: 600px;
+  overflow: hidden;
+}
+.hero__slides { position: absolute; inset: 0; }
+.hero__slide {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hero__slide.is-active { opacity: 1; }
+.hero__slide img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.hero__overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.15) 0%,
+    rgba(0,0,0,0.05) 40%,
+    rgba(0,0,0,0.55) 100%
+  );
+}
+
+.hero__content {
+  position: absolute;
+  bottom: 12%;
+  left: 0; right: 0;
+}
+.hero__title {
+  font-size: clamp(56px, 12vw, 140px);
+  color: var(--c-white);
+  margin: 0.3rem 0 0.5rem;
+  text-shadow: 0 2px 40px rgba(0,0,0,0.3);
+}
+.hero__sub {
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+}
+
+.hero__dots {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+.hero__dot {
+  width: 24px; height: 2px;
+  background: rgba(255,255,255,0.35);
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, width 0.3s;
+  padding: 0;
+}
+.hero__dot.is-active {
+  width: 48px;
+  background: var(--c-white);
+}
+
+.hero__scroll {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.6);
+  transition: color 0.2s;
+}
+.hero__scroll:hover { color: var(--c-accent); }
+.hero__scroll-line {
+  display: block;
+  width: 1px; height: 48px;
+  background: currentColor;
+  animation: scrollLine 1.8s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
+  40%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  60%  { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+}
+
+/* ── Categories ── */
+.categories {
+  padding-top: 8rem;
+}
+.categories__heading {
+  font-size: clamp(36px, 6vw, 72px);
+  margin-bottom: 3rem;
+  color: var(--c-white);
+}
+
+.categories__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px;
+}
+@media (max-width: 900px) { .categories__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .categories__grid { grid-template-columns: 1fr; } }
+
+.cat-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: var(--c-surface);
+}
+.cat-card__img { position: absolute; inset: 0; }
+.cat-card__img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease-out-expo);
+  filter: brightness(0.75);
+}
+.cat-card:hover .cat-card__img img {
+  transform: scale(1.06);
+  filter: brightness(0.55);
+}
+.cat-card__label {
+  position: absolute;
+  bottom: 1.2rem;
+  left: 0; right: 0;
+  text-align: center;
+  color: var(--c-white);
+  transition: color 0.2s;
+}
+.cat-card:hover .cat-card__label { color: var(--c-accent); }
+</style>

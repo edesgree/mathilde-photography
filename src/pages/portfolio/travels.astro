@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Gallery from '../../components/Gallery.astro';
+
+const photos = [
+  { src: '/images/travels/photo-01.jpg', alt: 'travels 01', width: 1200, height: 900 },
+  { src: '/images/travels/photo-02.jpg', alt: 'travels 02', width: 1200, height: 900 },
+  { src: '/images/travels/photo-03.jpg', alt: 'travels 03', width: 1200, height: 900 },
+  { src: '/images/travels/photo-04.jpg', alt: 'travels 04', width: 1200, height: 900 },
+  { src: '/images/travels/photo-05.jpg', alt: 'travels 05', width: 1200, height: 900 },
+  { src: '/images/travels/photo-06.jpg', alt: 'travels 06', width: 1200, height: 900 },
+  { src: '/images/travels/photo-07.jpg', alt: 'travels 07', width: 1200, height: 900 },
+  { src: '/images/travels/photo-08.jpg', alt: 'travels 08', width: 1200, height: 900 }
+];
+---
+
+<BaseLayout title="travels">
+  <div class="gallery-page">
+    <div class="gallery-page__header container">
+      <a href="/portfolio" class="gallery-page__back eyebrow">← Photography</a>
+      <h1 class="gallery-page__title display">travels</h1>
+    </div>
+    <div class="gallery-page__grid">
+      <Gallery photos={photos} columns={3} />
+    </div>
+  </div>
+</BaseLayout>
+
+<style lang="scss">
+.gallery-page { padding-top: calc(var(--nav-height) + 3rem); }
+.gallery-page__header { padding-bottom: 2rem; }
+.gallery-page__back { display: inline-block; margin-bottom: 1rem; color: var(--c-muted); transition: color 0.2s; }
+.gallery-page__back:hover { color: var(--c-accent); }
+.gallery-page__title { font-size: clamp(40px, 8vw, 96px); color: var(--c-white); }
+.gallery-page__grid { margin-top: 2rem; }
+</style>

@@ -1,0 +1,227 @@
+---
+interface Photo {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface Props {
+  photos: Photo[];
+  columns?: number;
+}
+
+const { photos, columns = 3 } = Astro.props;
+---
+
+<div class="gallery" style={`--cols: ${columns}`} data-gallery>
+  {photos.map((photo, i) => (
+    <button
+      class="gallery__item"
+      data-index={i}
+      aria-label={`View photo: ${photo.alt}`}
+    >
+      <img
+        src={photo.src}
+        alt={photo.alt}
+        loading={i < 6 ? 'eager' : 'lazy'}
+        decoding="async"
+        width={photo.width}
+        height={photo.height}
+      />
+    </button>
+  ))}
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-hidden="true">
+  <button class="lightbox__close" id="lb-close" aria-label="Close">✕</button>
+  <button class="lightbox__prev" id="lb-prev" aria-label="Previous">‹</button>
+  <button class="lightbox__next" id="lb-next" aria-label="Next">›</button>
+  <div class="lightbox__img-wrap">
+    <img src="" alt="" id="lb-img" />
+  </div>
+  <div class="lightbox__counter" id="lb-counter"></div>
+</div>
+
+<script define:vars={{ photos }}>
+  const gallery = document.querySelector('[data-gallery]');
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lb-img');
+  const lbCounter = document.getElementById('lb-counter');
+  let current = 0;
+
+  function open(index) {
+    current = index;
+    render();
+    lightbox.setAttribute('aria-hidden', 'false');
+    lightbox.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lb-close').focus();
+  }
+
+  function close() {
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightbox.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  function render() {
+    const p = photos[current];
+    lbImg.src = p.src;
+    lbImg.alt = p.alt;
+    lbCounter.textContent = `${current + 1} / ${photos.length}`;
+  }
+
+  function prev() { current = (current - 1 + photos.length) % photos.length; render(); }
+  function next() { current = (current + 1) % photos.length; render(); }
+
+  gallery?.addEventListener('click', e => {
+    const btn = e.target.closest('[data-index]');
+    if (btn) open(Number(btn.dataset.index));
+  });
+
+  document.getElementById('lb-close').addEventListener('click', close);
+  document.getElementById('lb-prev').addEventListener('click', prev);
+  document.getElementById('lb-next').addEventListener('click', next);
+
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
+
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('is-open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') prev();
+    if (e.key === 'ArrowRight') next();
+  });
+</script>
+
+<style lang="scss">
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+// ── Gallery grid ──
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 3), 1fr);
+  gap: 3px;
+
+  @include desktop { --cols: 2 !important; }
+  @include mobile  { --cols: 1 !important; }
+
+  &__item {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: $surface;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    @include focus-ring;
+
+    img {
+      @include cover-img;
+      transition: transform 0.6s $ease-out-expo, opacity 0.3s;
+      opacity: 0.9;
+    }
+
+    &::after {
+      content: '';
+      @include full-overlay(rgba(0,0,0,0.3));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    &:hover {
+      img {
+        transform: scale(1.04);
+        opacity: 1;
+      }
+      &::after { opacity: 1; }
+    }
+  }
+}
+
+// ── Lightbox ──
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(8, 8, 8, 0.97);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+
+  &.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  button {
+    position: absolute;
+    background: none;
+    border: none;
+    color: $white;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  &__img-wrap {
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+
+    img {
+      max-width: 90vw;
+      max-height: 86vh;
+      object-fit: contain;
+    }
+  }
+
+  &__close {
+    top: 1.5rem; right: 1.5rem;
+    font-size: 20px;
+    padding: 0.5rem;
+
+    &:hover { color: $accent; }
+  }
+
+  &__prev,
+  &__next {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 48px;
+    font-weight: 200;
+    padding: 1rem;
+    opacity: 0.5;
+    line-height: 1;
+
+    &:hover {
+      opacity: 1;
+      color: $accent;
+    }
+
+    @include mobile {
+      font-size: 32px;
+      padding: 0.5rem;
+    }
+  }
+
+  &__prev { left: 1rem; }
+  &__next { right: 1rem; }
+
+  &__counter {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: $muted;
+  }
+}
+</style>

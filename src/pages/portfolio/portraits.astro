@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Gallery from '../../components/Gallery.astro';
+
+/**
+ * PORTRAITS GALLERY
+ *
+ * Add your photos here. src paths are relative to /public.
+ * Example: '/images/portraits/photo-01.jpg'
+ *
+ * Tips:
+ * - Export images at max 2400px wide (Retina: 1200px display = 2400px src)
+ * - Use WebP format for best compression (Astro can auto-convert if you use <Image>)
+ * - Keep filenames lowercase-hyphenated: cassandra-beach-01.jpg
+ */
+const photos = [
+  { src: '/images/portraits/photo-01.jpg', alt: 'Portrait — Cassandra plage', width: 1200, height: 900 },
+  { src: '/images/portraits/photo-02.jpg', alt: 'Portrait — Will studio',     width: 1200, height: 900 },
+  { src: '/images/portraits/photo-03.jpg', alt: 'Portrait',                   width: 1200, height: 900 },
+  { src: '/images/portraits/photo-04.jpg', alt: 'Portrait — Cassandra plage', width: 1200, height: 900 },
+  { src: '/images/portraits/photo-05.jpg', alt: 'Portrait — Will studio',     width: 1200, height: 900 },
+  { src: '/images/portraits/photo-06.jpg', alt: 'Portrait',                   width: 1200, height: 900 },
+  { src: '/images/portraits/photo-07.jpg', alt: 'Portrait — Cassandra plage', width: 1200, height: 900 }
+  // Add more photos here...
+];
+---
+
+<BaseLayout
+  title="Portraits"
+  description="Portfolio portraits de Mathilde Godard — photographie de portrait, mode et art à Nantes."
+>
+  <div class="gallery-page">
+    <div class="gallery-page__header container">
+      <a href="/portfolio" class="gallery-page__back eyebrow">← Photography</a>
+      <h1 class="gallery-page__title display">Portraits</h1>
+    </div>
+
+    <div class="gallery-page__grid">
+      <Gallery photos={photos} columns={3} />
+    </div>
+  </div>
+</BaseLayout>
+
+<style lang="scss">
+.gallery-page { padding-top: calc(var(--nav-height) + 3rem); }
+.gallery-page__header {
+  padding-bottom: 2rem;
+}
+.gallery-page__back {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--c-muted);
+  transition: color 0.2s;
+}
+.gallery-page__back:hover { color: var(--c-accent); }
+.gallery-page__title {
+  font-size: clamp(40px, 8vw, 96px);
+  color: var(--c-white);
+}
+.gallery-page__grid {
+  margin-top: 2rem;
+}
+</style>

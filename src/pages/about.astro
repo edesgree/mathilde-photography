@@ -1,0 +1,356 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="Mathilde Godard — French photographer and video post-producer based in Nantes, France. Portrait, fashion, travel, architecture and landscape."
+>
+  <div class="about">
+
+    <!-- ── Page header ── -->
+    <header class="about__header container">
+      <p class="eyebrow">About</p>
+      <h1 class="about__title display">Hi there,</h1>
+    </header>
+
+    <!-- ── Main content ── -->
+    <div class="about__content container">
+
+      <!-- Text column -->
+      <div class="about__text">
+        <p>
+          Here is a little portrait of myself from the past few years.
+        </p>
+        <p>
+          I am a French artist from Brittany who has sought out adventures and travel to enrich
+          both my art and understanding of the world. I cherish nature and have a curious mind.
+          I see life and our surroundings as a playground to be explored and I wish to highlight
+          its beauty. My art is the reflection of this outlook and I hope to spark other people's
+          curiosity through my work.
+        </p>
+        <p>
+          I photograph my day to day life with my Olympus om-10, an old film camera. I like to
+          wander across the streets and stop at random coffee places searching for people's smiles
+          while drinking my tea. I've lived in London for 4 and a half years where I have come
+          across amazing people and made friends. There, I became a post producer working in
+          agencies and production houses. I loved my job and particularly the people that I was
+          working with. My colleagues were amazing, inspiring and creative. Next to my main job
+          I've taken up opportunities to direct music videos and photographed fashion campaigns,
+          artists and musicians.
+        </p>
+
+ 
+
+        <p>
+          Living in London city never put me off traveling. I went to Iceland, Germany, Spain,
+          and to Canada where I ended up falling in love. Life is full of surprises and so I've
+          decided to leave London to go to the other side of the world. Because like my partner
+          I am one of those who seek adventures. This time I took off to New Zealand. I wanted
+          to live surrounded by nature with my partner in a van we built and named Waka as a
+          reference for Maori canoe. We crossed the entire country during 2&frac12; years aboard
+          in our van going from one adventure to another. We shared incredible moments and met so
+          many bright souls throughout our journey, nature was luxurious and roads were endless.
+          We've learned things that we would never have the opportunity to learn before and I feel
+          immensely grateful for all those experiences.
+        </p>
+
+        <!-- Inline photo 2 -->
+        <figure class="about__figure about__figure--portrait">
+          <img
+            src="/images/about/mathilde-camera.jpg"
+            alt="Mathilde Godard taking a photo"
+            loading="lazy"
+          />
+        </figure>
+
+        <p>
+          I am now based in France where I ask myself what will be my next creative project or
+          my next encounters. I enjoy collaborative projects and am always happy to take pictures
+          or direct videos.
+        </p>
+        <p>
+          Don't hesitate to reach me if you are looking for a photographer, a post-producer or
+          a videographer. I look forward to working with you in the future.
+        </p>
+
+        <!-- Sign-off -->
+        <p class="about__signoff display">With love,<br />Mathilde</p>
+
+        <!-- Socials -->
+        <div class="about__socials">
+          <a
+            href="https://www.instagram.com/mathildegodard__/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="about__social-link"
+            aria-label="Instagram"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+            </svg>
+            <span>@mathildegodard__</span>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/mathilde-godard-2915998b/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="about__social-link"
+            aria-label="LinkedIn"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+            <span>Mathilde Godard</span>
+          </a>
+          <a
+            href="mailto:contact@mathildegodard.com"
+            class="about__social-link"
+            aria-label="Email"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+            <span>contact@mathildegodard.com</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="about__sidebar">
+        <div class="about__sidebar-photo">
+          <img
+            src="/images/about/mathilde-nature.jpg"
+            alt="Mathilde Godard"
+            loading="eager"
+          />
+        </div>
+        <div class="about__sidebar-info">
+          <div class="about__info-block">
+            <span class="eyebrow">Based in</span>
+            <p>Nantes, France</p>
+          </div>
+          <div class="about__info-block">
+            <span class="eyebrow">Available for</span>
+            <ul>
+              <li>Photography</li>
+              <li>Video direction</li>
+              <li>Post-production</li>
+            </ul>
+          </div>
+          <div class="about__info-block">
+            <span class="eyebrow">Specialities</span>
+            <ul>
+              <li>Portrait</li>
+              <li>Fashion & editorial</li>
+              <li>Travel & documentary</li>
+              <li>Architecture</li>
+              <li>Landscape</li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style lang="scss">
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.about {
+  padding-top: calc(#{$nav-height} + 5rem);
+  padding-bottom: 8rem;
+
+  // ── Header ──
+  &__header {
+    padding-bottom: 3rem;
+    border-bottom: 1px solid $border;
+  }
+
+  &__title {
+    font-size: clamp(52px, 10vw, 120px);
+    color: $white;
+    margin-top: 0.5rem;
+    line-height: 1;
+  }
+
+  // ── Two-column layout ──
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 6rem;
+    align-items: start;
+    padding-top: 5rem;
+
+    @include desktop {
+      grid-template-columns: 1fr 280px;
+      gap: 4rem;
+    }
+
+    @include tablet {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+
+  // ── Text column ──
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 680px;
+
+    p {
+      font-size: 17px;
+      line-height: 1.85;
+      color: rgba($text, 0.8);
+
+      &:first-child {
+        font-family: $font-display;
+        font-size: clamp(20px, 2.5vw, 28px);
+        font-weight: 300;
+        color: $white;
+        line-height: 1.4;
+      }
+    }
+  }
+
+  // ── Inline figures ──
+  &__figure {
+    margin: 1rem 0;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+
+    figcaption {
+      margin-top: 0.5rem;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: $muted;
+    }
+
+    &--wide img {
+      max-height: 520px;
+      object-position: center top;
+    }
+
+    &--portrait {
+      max-width: 460px;
+
+      img {
+        aspect-ratio: 4/5;
+      }
+    }
+  }
+
+  // ── Sign-off ──
+  &__signoff {
+    font-size: clamp(28px, 4vw, 48px) !important;
+    color: $white !important;
+    line-height: 1.3 !important;
+    margin-top: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid $border;
+  }
+
+  // ── Socials ──
+  &__socials {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-top: 1rem;
+  }
+
+  &__social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: $muted;
+    font-size: 14px;
+    transition: color 0.2s;
+
+    svg { flex-shrink: 0; }
+
+    &:hover { color: $accent; }
+  }
+
+  // ── Sidebar ──
+  &__sidebar {
+    position: sticky;
+    top: calc(#{$nav-height} + 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    @include tablet {
+      position: static;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__sidebar-photo {
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform 0.6s $ease-out-expo;
+
+      &:hover { transform: scale(1.03); }
+    }
+  }
+
+  &__sidebar-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    padding-top: 0.5rem;
+  }
+
+  &__info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+
+    p, ul { color: rgba($text, 0.7); font-size: 14px; line-height: 1.7; }
+
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+
+      li {
+        padding-left: 1rem;
+        position: relative;
+
+        &::before {
+          content: '—';
+          position: absolute;
+          left: 0;
+          color: $border;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+</style>

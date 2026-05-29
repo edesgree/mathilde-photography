@@ -1,0 +1,91 @@
+// ─────────────────────────────────────────
+// global.scss — Mathilde Godard Portfolio
+// ─────────────────────────────────────────
+@use 'variables' as *;
+@use 'mixins' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+// ── CSS Custom Properties (for use in .astro <style> blocks) ──
+:root {
+  --c-bg:        #{$bg};
+  --c-surface:   #{$surface};
+  --c-border:    #{$border};
+  --c-text:      #{$text};
+  --c-muted:     #{$muted};
+  --c-accent:    #{$accent};
+  --c-white:     #{$white};
+
+  --font-display: #{$font-display};
+  --font-ui:      #{$font-ui};
+
+  --nav-height:   #{$nav-height};
+  --max-w:        #{$max-w};
+  --gap:          clamp(1rem, 3vw, 2.5rem);
+  --ease-out-expo: #{$ease-out-expo};
+}
+
+// ── Reset ──
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: $bg;
+  color: $text;
+  font-family: $font-ui;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+// ── Utility classes ──
+.display {
+  @include display-font;
+}
+
+.eyebrow {
+  @include eyebrow;
+}
+
+.container {
+  @include container;
+}
+
+// ── Scrollbar ──
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: $bg;
+}
+::-webkit-scrollbar-thumb {
+  background: $border;
+  border-radius: 2px;
+}
+
+// ── Selection ──
+::selection {
+  background: $accent;
+  color: $bg;
+}

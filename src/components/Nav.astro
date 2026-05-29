@@ -1,0 +1,253 @@
+---
+const navLinks = [
+  { label: 'Photography', href: '/portfolio', children: [
+    { label: 'Portraits',      href: '/portfolio/portraits' },
+    { label: 'Fashion',        href: '/portfolio/fashion' },
+    { label: 'Travels',        href: '/portfolio/travels' },
+    { label: 'Architectures',  href: '/portfolio/architectures' },
+    { label: 'Landscapes',     href: '/portfolio/landscapes' },
+  ]},
+  { label: 'Video',        href: '/videos' },
+  { label: 'About',        href: '/about' },
+];
+
+const current = Astro.url.pathname;
+---
+
+<header class="nav" id="nav">
+  <div class="nav__inner container">
+    <a href="/" class="nav__logo" aria-label="Mathilde Godard — Home">
+      <span class="nav__logo-name">Mathilde Godard</span>
+      <span class="nav__logo-sub eyebrow">Photography · Video</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Main navigation">
+      {navLinks.map(link => (
+        <div class={`nav__item ${link.children ? 'has-dropdown' : ''}`}>
+          <a
+            href={link.href}
+            class={`nav__link ${current.startsWith(link.href) ? 'is-active' : ''}`}
+          >
+            {link.label}
+          </a>
+          {link.children && (
+            <div class="nav__dropdown">
+              {link.children.map(child => (
+                <a
+                  href={child.href}
+                  class={`nav__dropdown-link ${current === child.href ? 'is-active' : ''}`}
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </nav>
+
+    <button class="nav__burger" aria-label="Toggle menu" aria-expanded="false" id="burger">
+      <span></span><span></span>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="nav__mobile" id="mobile-menu" aria-hidden="true">
+    {navLinks.map(link => (
+      <>
+        <a href={link.href} class="nav__mobile-link">{link.label}</a>
+        {link.children && link.children.map(child => (
+          <a href={child.href} class="nav__mobile-sublink">{child.label}</a>
+        ))}
+      </>
+    ))}
+  </div>
+</header>
+
+<script>
+  const nav    = document.getElementById('nav')!;
+  const burger = document.getElementById('burger')!;
+  const menu   = document.getElementById('mobile-menu')!;
+
+  // Scroll: add background after hero
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('is-scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // Burger toggle
+  burger.addEventListener('click', () => {
+    const open = burger.getAttribute('aria-expanded') === 'true';
+    burger.setAttribute('aria-expanded', String(!open));
+    menu.setAttribute('aria-hidden', String(open));
+    burger.classList.toggle('is-open', !open);
+    menu.classList.toggle('is-open', !open);
+    document.body.style.overflow = open ? '' : 'hidden';
+  });
+</script>
+
+<style lang="scss">
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  transition: background 0.4s $ease-out-expo, backdrop-filter 0.4s;
+
+  &.is-scrolled {
+    background: rgba($bg, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid $border;
+  }
+
+  &__inner {
+    @include container;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: $nav-height;
+  }
+
+  // ── Logo ──
+  &__logo {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin-right: auto;
+    line-height: 1;
+
+    &-name {
+      font-family: $font-display;
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: $white;
+    }
+    &-sub { margin-top: 2px; }
+  }
+
+  // ── Desktop links ──
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  &__item { position: relative; }
+
+  &__link {
+    display: block;
+    padding: 0.4rem 0.9rem;
+    @include ui-label;
+    font-size: 13px;
+    color: $muted;
+    transition: color 0.2s;
+
+    &:hover,
+    &.is-active { color: $white; }
+  }
+
+  // ── Dropdown ──
+  &__dropdown {
+    position: absolute;
+    top: 100% ;
+    left: 0;
+    min-width: 180px;
+    background: $surface;
+    border: 1px solid $border;
+    padding: 0.5rem 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+    transition: opacity 0.2s, transform 0.2s;
+
+    .has-dropdown:hover & {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    &-link {
+      display: block;
+      padding: 0.45rem 1.1rem;
+      @include ui-label;
+      font-size: 12px;
+      color: $muted;
+      transition: color 0.15s, background 0.15s;
+
+      &:hover,
+      &.is-active {
+        color: $white;
+        background: rgba($white, 0.04);
+      }
+    }
+  }
+
+  // ── Burger ──
+  &__burger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+
+    span {
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: $text;
+      transition: transform 0.3s, opacity 0.3s;
+      transform-origin: center;
+    }
+
+    &.is-open {
+      span:first-child { transform: translateY(3.5px) rotate(45deg); }
+      span:last-child  { transform: translateY(-3.5px) rotate(-45deg); }
+    }
+  }
+
+  // ── Mobile menu ──
+  &__mobile {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: #{$nav-height} 0 0 0;
+    background: $bg;
+    padding: 2rem var(--gap);
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.4s $ease-out-expo;
+
+    &.is-open { transform: translateX(0); }
+  }
+
+  &__mobile-link {
+    font-family: $font-display;
+    font-size: clamp(28px, 8vw, 48px);
+    font-weight: 300;
+    color: $white;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid $border;
+    margin-bottom: 0.5rem;
+  }
+
+  &__mobile-sublink {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $muted;
+    padding: 0.25rem 0 0.25rem 1rem;
+    transition: color 0.2s;
+
+    &:hover { color: $accent; }
+  }
+
+  @include tablet {
+    &__links { display: none; }
+    &__burger { display: flex; }
+  }
+}
+</style>

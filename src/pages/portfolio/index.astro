@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const categories = [
+  { label: 'Portraits',     href: '/portfolio/portraits',     src: '/images/covers/portraits.jpg',     count: 0 },
+  { label: 'Fashion',       href: '/portfolio/fashion',       src: '/images/covers/fashion.jpg',       count: 0 },
+  { label: 'Travels',       href: '/portfolio/travels',       src: '/images/covers/travels.jpg',       count: 0 },
+  { label: 'Architectures', href: '/portfolio/architectures', src: '/images/covers/architectures.jpg', count: 0 },
+  { label: 'Landscapes',    href: '/portfolio/landscapes',    src: '/images/covers/landscapes.jpg',    count: 0 },
+];
+---
+
+<BaseLayout title="Portfolio" description="Portfolio photo de Mathilde Godard — portraits, fashion, voyages, architectures, paysages.">
+  <div class="page-hero container">
+    <p class="eyebrow">Work</p>
+    <h1 class="page-title display">Photography</h1>
+  </div>
+
+  <div class="cat-list container">
+    {categories.map(cat => (
+      <a href={cat.href} class="cat-row">
+        <div class="cat-row__thumb">
+          <img src={cat.src} alt={cat.label} loading="lazy" />
+        </div>
+        <span class="cat-row__label display">{cat.label}</span>
+        <span class="cat-row__arrow">→</span>
+      </a>
+    ))}
+  </div>
+</BaseLayout>
+
+<style lang="scss">
+.page-hero {
+  padding-top: calc(var(--nav-height) + 5rem);
+  padding-bottom: 4rem;
+  border-bottom: 1px solid var(--c-border);
+}
+.page-title {
+  font-size: clamp(48px, 10vw, 110px);
+  color: var(--c-white);
+  margin-top: 0.5rem;
+}
+
+.cat-list { padding-top: 0; }
+.cat-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--c-border);
+  transition: padding-left 0.3s var(--ease-out-expo);
+}
+.cat-row:hover { padding-left: 1rem; }
+.cat-row__thumb {
+  width: 64px; height: 48px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.cat-row__thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+.cat-row:hover .cat-row__thumb img { transform: scale(1.1); }
+.cat-row__label {
+  font-size: clamp(24px, 4vw, 48px);
+  color: var(--c-white);
+  flex: 1;
+  transition: color 0.2s;
+}
+.cat-row:hover .cat-row__label { color: var(--c-accent); }
+.cat-row__arrow {
+  font-size: 20px;
+  color: var(--c-muted);
+  transition: transform 0.3s, color 0.2s;
+}
+.cat-row:hover .cat-row__arrow {
+  transform: translateX(6px);
+  color: var(--c-accent);
+}
+</style>

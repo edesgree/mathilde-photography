@@ -1,23 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Gallery from '../../components/Gallery.astro';
+import { photos } from '../../data/photos';
 
-const photos = [
-  { src: '/images/fashion/photo-01.webp', alt: 'fashion 01', width: 1200, height: 900 },
-  { src: '/images/fashion/photo-02.webp', alt: 'fashion 02', width: 1200, height: 900 },
-  { src: '/images/fashion/photo-03.webp', alt: 'fashion 03', width: 1200, height: 900 },
-  { src: '/images/fashion/photo-04.webp', alt: 'fashion 04', width: 1200, height: 900 },
-  { src: '/images/fashion/photo-05.webp', alt: 'fashion 05', width: 1200, height: 900 },
-  { src: '/images/fashion/photo-06.webp', alt: 'fashion 06', width: 1200, height: 900 },
-  { src: '/images/fashion/photo-07.webp', alt: 'fashion 07', width: 1200, height: 900 },
-  { src: '/images/fashion/photo-08.webp', alt: 'fashion 08', width: 1200, height: 900 },
-  { src: '/images/fashion/photo-09.webp', alt: 'fashion 09', width: 1200, height: 900 },
-  { src: '/images/fashion/photo-10.webp', alt: 'fashion 10', width: 1200, height: 900 },
-  { src: '/images/fashion/photo-11.webp', alt: 'fashion 11', width: 1200, height: 900 },
-  { src: '/images/fashion/photo-12.webp', alt: 'fashion 12', width: 1200, height: 900 },
-  { src: '/images/fashion/photo-13.webp', alt: 'fashion 13', width: 1200, height: 900 },
-  { src: '/images/fashion/photo-14.webp', alt: 'fashion 14', width: 1200, height: 900 }
-];
 ---
 
 <BaseLayout title="fashion">
@@ -27,7 +12,7 @@ const photos = [
       <h1 class="gallery-page__title display">fashion</h1>
     </div>
     <div class="gallery-page__grid">
-      <Gallery photos={photos} columns={3} />
+      <Gallery photos={photos.fashion} columns={3} />
     </div>
   </div>
 </BaseLayout>

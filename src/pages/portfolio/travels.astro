@@ -1,17 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Gallery from '../../components/Gallery.astro';
-
-const photos = [
-  { src: '/images/travels/photo-01.webp', alt: 'travels 01', width: 1200, height: 900 },
-  { src: '/images/travels/photo-02.webp', alt: 'travels 02', width: 1200, height: 900 },
-  { src: '/images/travels/photo-03.webp', alt: 'travels 03', width: 1200, height: 900 },
-  { src: '/images/travels/photo-04.webp', alt: 'travels 04', width: 1200, height: 900 },
-  { src: '/images/travels/photo-05.webp', alt: 'travels 05', width: 1200, height: 900 },
-  { src: '/images/travels/photo-06.webp', alt: 'travels 06', width: 1200, height: 900 },
-  { src: '/images/travels/photo-07.webp', alt: 'travels 07', width: 1200, height: 900 },
-  { src: '/images/travels/photo-08.webp', alt: 'travels 08', width: 1200, height: 900 }
-];
+import { photos } from '../../data/photos';
 ---
 
 <BaseLayout title="travels">
@@ -21,7 +11,7 @@ const photos = [
       <h1 class="gallery-page__title display">travels</h1>
     </div>
     <div class="gallery-page__grid">
-      <Gallery photos={photos} columns={3} />
+      <Gallery photos={photos.travels} columns={3} />
     </div>
   </div>
 </BaseLayout>

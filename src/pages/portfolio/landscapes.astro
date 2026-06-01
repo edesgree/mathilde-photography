@@ -1,18 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Gallery from '../../components/Gallery.astro';
-
-const photos = [
-  { src: '/images/landscapes/photo-01.webp', alt: 'landscapes 01', width: 1200, height: 900 },
-  { src: '/images/landscapes/photo-02.webp', alt: 'landscapes 02', width: 1200, height: 900 },
-  { src: '/images/landscapes/photo-03.webp', alt: 'landscapes 03', width: 1200, height: 900 },
-  { src: '/images/landscapes/photo-04.webp', alt: 'landscapes 04', width: 1200, height: 900 },
-  { src: '/images/landscapes/photo-05.webp', alt: 'landscapes 05', width: 1200, height: 900 },
-  { src: '/images/landscapes/photo-06.webp', alt: 'landscapes 06', width: 1200, height: 900 },
-  { src: '/images/landscapes/photo-07.webp', alt: 'landscapes 07', width: 1200, height: 900 },
-  { src: '/images/landscapes/photo-08.webp', alt: 'landscapes 08', width: 1200, height: 900 },
-  { src: '/images/landscapes/photo-09.webp', alt: 'landscapes 09', width: 1200, height: 900 }
-];
+import { photos } from '../../data/photos';
 ---
 
 <BaseLayout title="landscapes">
@@ -22,7 +11,7 @@ const photos = [
       <h1 class="gallery-page__title display">landscapes</h1>
     </div>
     <div class="gallery-page__grid">
-      <Gallery photos={photos} columns={3} />
+      <Gallery photos={photos.landscapes} columns={3} />
     </div>
   </div>
 </BaseLayout>

@@ -1,13 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { categories } from '../../data/photos';
 
-const categories = [
-  { label: 'Portraits',     href: '/portfolio/portraits',     src: '/images/covers/portraits.webp',     count: 0 },
-  { label: 'Fashion',       href: '/portfolio/fashion',       src: '/images/covers/fashion.webp',       count: 0 },
-  { label: 'Travels',       href: '/portfolio/travels',       src: '/images/covers/travels.webp',       count: 0 },
-  { label: 'Architectures', href: '/portfolio/architectures', src: '/images/covers/architectures.webp', count: 0 },
-  { label: 'Landscapes',    href: '/portfolio/landscapes',    src: '/images/covers/landscapes.webp',    count: 0 },
-];
 ---
 
 <BaseLayout title="Portfolio" description="Portfolio photo de Mathilde Godard — portraits, fashion, voyages, architectures, paysages.">

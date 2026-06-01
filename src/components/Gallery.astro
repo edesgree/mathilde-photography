@@ -1,6 +1,7 @@
 ---
 interface Photo {
-  src: string;
+  src: string;      // full-size, shown in lightbox
+  thumb: string;    // thumbnail, shown in the grid
   alt: string;
   width?: number;
   height?: number;
@@ -22,7 +23,7 @@ const { photos, columns = 3 } = Astro.props;
       aria-label={`View photo: ${photo.alt}`}
     >
       <img
-        src={photo.src}
+        src={photo.thumb}
         alt={photo.alt}
         loading={i < 6 ? 'eager' : 'lazy'}
         decoding="async"

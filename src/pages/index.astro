@@ -1,16 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import {heroSlides as slides} from '../data/photos';	
-
+import { heroSlides as slides, categories } from '../data/photos';
 ---
 
 <BaseLayout>
-  <!-- Swiper CSS injected into <head> -->
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    slot="head"
-  />
 
   <!-- ── Hero ── -->
   <section class="hero" aria-label="Hero slideshow">
@@ -44,41 +37,32 @@ import {heroSlides as slides} from '../data/photos';
       <span class="eyebrow">Portfolio</span>
       <span class="hero__scroll-line"></span>
     </a>
-</section>
 
-<!-- Swiper JS — loaded after page content -->
-<script is:inline>
-  (function() {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
-    script.onload = function() {
-      new Swiper('.hero-swiper', {
-        loop: true,
-        speed: 1200,
-        autoplay: {
-          delay: 5000,
-          disableOnInteraction: false,
-        },
-        effect: 'fade',
-        fadeEffect: {
-          crossFade: true,
-        },
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-      });
-    };
-    document.head.appendChild(script);
-  })();
-</script>
+  </section>
+
+  <!-- ── Categories ── -->
+  <section class="categories container">
+    <h2 class="categories__heading display">Photography</h2>
+    <div class="categories__grid">
+      {categories.map(cat => (
+        <a href={cat.href} class="cat-card">
+          <div class="cat-card__img">
+            <img src={cat.src} alt={cat.label} loading="lazy" />
+          </div>
+          <div class="cat-card__label">
+            <span class="eyebrow">{cat.label}</span>
+          </div> 
+        </a>
+      ))}
+    </div>
+  </section>
 
 </BaseLayout>
 
+<script>
+  import { initHeroSwiper } from '../scripts/swiper';
+  initHeroSwiper();
+</script>
 
 <style lang="scss">
 @use '../styles/variables' as *;
@@ -92,23 +76,19 @@ import {heroSlides as slides} from '../data/photos';
   overflow: hidden;
 }
 
-// Swiper fills the hero entirely
 .hero-swiper {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 
-  .swiper-slide {
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+  .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
-  // Pagination — styled to match the original dash indicators
-  .swiper-pagination {
+  :global(.swiper-pagination) {
     bottom: 2rem;
   }
 
@@ -122,42 +102,36 @@ import {heroSlides as slides} from '../data/photos';
     margin: 0 4px !important;
   }
 
-  
   :global(.swiper-pagination-bullet-active) {
-    background: $accent;
+    width: 48px;
+    background: $white;
   }
 
-  // Navigation arrows
-  .swiper-button-prev,
-  .swiper-button-next {
+  :global(.swiper-button-prev),
+  :global(.swiper-button-next) {
     color: rgba($white, 0.6);
     transition: color 0.2s;
-
     &:hover { color: $accent; }
-
     &::after { font-size: 20px; }
   }
 }
 
-// Gradient overlay so text stays readable over any photo
 .hero__overlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.1) 0%,
-    rgba(0, 0, 0, 0.0) 40%,
-    rgba(0, 0, 0, 0.55) 100%
+    rgba(0,0,0,0.1) 0%,
+    rgba(0,0,0,0.0) 40%,
+    rgba(0,0,0,0.55) 100%
   );
 }
 
-// Name + location — sits above everything
 .hero__content {
   position: absolute;
   bottom: 12%;
-  left: 0;
-  right: 0;
+  left: 0; right: 0;
   z-index: 10;
   pointer-events: none;
 }
@@ -166,7 +140,7 @@ import {heroSlides as slides} from '../data/photos';
   font-size: clamp(56px, 12vw, 140px);
   color: $white;
   margin: 0.3rem 0 0.5rem;
-  text-shadow: 0 2px 40px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 40px rgba(0,0,0,0.3);
 }
 
 .hero__sub {
@@ -176,7 +150,6 @@ import {heroSlides as slides} from '../data/photos';
   text-transform: uppercase;
 }
 
-// Animated scroll indicator — bottom right
 .hero__scroll {
   position: absolute;
   right: 2rem;
@@ -188,7 +161,6 @@ import {heroSlides as slides} from '../data/photos';
   gap: 8px;
   color: rgba($white, 0.6);
   transition: color 0.2s;
-
   &:hover { color: $accent; }
 }
 
@@ -239,8 +211,7 @@ import {heroSlides as slides} from '../data/photos';
     inset: 0;
 
     img {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       object-fit: cover;
       transition: transform 0.7s $ease-out-expo;
       filter: brightness(0.75);
@@ -255,8 +226,7 @@ import {heroSlides as slides} from '../data/photos';
   &__label {
     position: absolute;
     bottom: 1.2rem;
-    left: 0;
-    right: 0;
+    left: 0; right: 0;
     text-align: center;
     color: $white;
     transition: color 0.2s;

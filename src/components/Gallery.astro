@@ -1,7 +1,7 @@
 ---
 interface Photo {
-  src: string;      // full-size, shown in lightbox
-  thumb: string;    // thumbnail, shown in the grid
+  src: string;
+  thumb: string;
   alt: string;
   width?: number;
   height?: number;
@@ -9,126 +9,113 @@ interface Photo {
 
 interface Props {
   photos: Photo[];
-  columns?: number;
 }
 
-const { photos, columns = 3 } = Astro.props;
+const { photos } = Astro.props;
 ---
 
-<div class="gallery" style={`--cols: ${columns}`} data-gallery>
-  {photos.map((photo, i) => (
-    <button
-      class="gallery__item"
-      data-index={i}
-      aria-label={`View photo: ${photo.alt}`}
-    >
-      <img
-        src={photo.thumb}
-        alt={photo.alt}
-        loading={i < 6 ? 'eager' : 'lazy'}
-        decoding="async"
-        width={photo.width}
-        height={photo.height}
-      />
-    </button>
-  ))}
-</div>
-
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-hidden="true">
-  <button class="lightbox__close" id="lb-close" aria-label="Close">✕</button>
-  <button class="lightbox__prev" id="lb-prev" aria-label="Previous">‹</button>
-  <button class="lightbox__next" id="lb-next" aria-label="Next">›</button>
-  <div class="lightbox__img-wrap">
-    <img src="" alt="" id="lb-img" />
+<!-- ── Thumbnail grid ── -->
+<div class="swiper gallery-thumbs">
+  <div class="swiper-wrapper">
+    {photos.map((photo, i) => (
+      <div
+        class="swiper-slide gallery-thumbs__slide"
+        role="button"
+        tabindex="0"
+        aria-label={`View photo: ${photo.alt}`}
+      >
+        <img
+          src={photo.thumb}
+          alt={photo.alt}
+          loading={i < 9 ? 'eager' : 'lazy'}
+          decoding="async"
+          width={photo.width}
+          height={photo.height}
+        />
+      </div>
+    ))}
   </div>
-  <div class="lightbox__counter" id="lb-counter"></div>
 </div>
 
-<script define:vars={{ photos }}>
-  const gallery = document.querySelector('[data-gallery]');
-  const lightbox = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lb-img');
-  const lbCounter = document.getElementById('lb-counter');
-  let current = 0;
+<!-- ── Lightbox overlay ── -->
+<div class="gallery-lightbox-wrap" role="dialog" aria-modal="true" aria-label="Photo lightbox">
+  <button class="gallery-lightbox-close" aria-label="Close lightbox">✕</button>
 
-  function open(index) {
-    current = index;
-    render();
-    lightbox.setAttribute('aria-hidden', 'false');
-    lightbox.classList.add('is-open');
-    document.body.style.overflow = 'hidden';
-    document.getElementById('lb-close').focus();
-  }
+  <div class="swiper gallery-lightbox">
+    <div class="swiper-wrapper">
+      {photos.map((photo) => (
+        <div class="swiper-slide">
+          <div class="swiper-zoom-container">
+            <img
+              src={photo.src}
+              alt={photo.alt}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
 
-  function close() {
-    lightbox.setAttribute('aria-hidden', 'true');
-    lightbox.classList.remove('is-open');
-    document.body.style.overflow = '';
-  }
+  <div class="gallery-lightbox-counter" id="lb-counter"></div>
+</div>
 
-  function render() {
-    const p = photos[current];
-    lbImg.src = p.src;
-    lbImg.alt = p.alt;
-    lbCounter.textContent = `${current + 1} / ${photos.length}`;
-  }
-
-  function prev() { current = (current - 1 + photos.length) % photos.length; render(); }
-  function next() { current = (current + 1) % photos.length; render(); }
-
-  gallery?.addEventListener('click', e => {
-    const btn = e.target.closest('[data-index]');
-    if (btn) open(Number(btn.dataset.index));
-  });
-
-  document.getElementById('lb-close').addEventListener('click', close);
-  document.getElementById('lb-prev').addEventListener('click', prev);
-  document.getElementById('lb-next').addEventListener('click', next);
-
-  lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
-
-  document.addEventListener('keydown', e => {
-    if (!lightbox.classList.contains('is-open')) return;
-    if (e.key === 'Escape') close();
-    if (e.key === 'ArrowLeft') prev();
-    if (e.key === 'ArrowRight') next();
-  });
+<script>
+  import { initGallerySwiper } from '../scripts/swiper';
+  initGallerySwiper();
 </script>
 
 <style lang="scss">
 @use '../styles/variables' as *;
 @use '../styles/mixins' as *;
 
-// ── Gallery grid ──
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(var(--cols, 3), 1fr);
-  gap: 3px;
+// ── Thumbnail grid ──────────────────────────
+.gallery-thumbs {
+  // Lay out as a CSS grid — Swiper handles the DOM
+  // but we override its flex with grid-like sizing
+  &.swiper {
+    width: 100%;
+    // Let slides define their own size via slidesPerView: 'auto'
+  }
 
-  @include desktop { --cols: 2 !important; }
-  @include mobile  { --cols: 1 !important; }
+  .swiper-wrapper {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    // grid overrides swiper flex — no actual sliding on the grid
+    transform: none !important;
+    flex-wrap: wrap;
 
-  &__item {
-    position: relative;
+    @include desktop { grid-template-columns: repeat(2, 1fr); }
+    @include mobile  { grid-template-columns: 1fr; }
+  }
+
+  &__slide {
+    // Override Swiper's width:auto — grid handles sizing
+    width: auto !important;
     aspect-ratio: 4/3;
     overflow: hidden;
     background: $surface;
-    border: none;
     cursor: pointer;
-    padding: 0;
+    position: relative;
 
     @include focus-ring;
 
     img {
-      @include cover-img;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       transition: transform 0.6s $ease-out-expo, opacity 0.3s;
-      opacity: 0.9;
+      opacity: 0.88;
+      display: block;
     }
 
     &::after {
       content: '';
-      @include full-overlay(rgba(0,0,0,0.3));
+      @include full-overlay(rgba(0,0,0,0.25));
       opacity: 0;
       transition: opacity 0.3s;
     }
@@ -143,8 +130,8 @@ const { photos, columns = 3 } = Astro.props;
   }
 }
 
-// ── Lightbox ──
-.lightbox {
+// ── Lightbox overlay ────────────────────────
+.gallery-lightbox-wrap {
   position: fixed;
   inset: 0;
   z-index: 200;
@@ -160,69 +147,74 @@ const { photos, columns = 3 } = Astro.props;
     opacity: 1;
     pointer-events: auto;
   }
+}
 
-  button {
-    position: absolute;
-    background: none;
-    border: none;
-    color: $white;
-    cursor: pointer;
-    transition: color 0.2s, transform 0.2s;
-  }
+.gallery-lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 10;
+  background: none;
+  border: none;
+  color: $white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0.5rem;
+  line-height: 1;
+  transition: color 0.2s;
 
-  &__img-wrap {
-    max-width: 90vw;
-    max-height: 90vh;
+  &:hover { color: $accent; }
+}
+
+.gallery-lightbox {
+  width: 100%;
+  height: 100%;
+
+  .swiper-slide {
     display: flex;
     align-items: center;
+    justify-content: center;
+  }
+
+  .swiper-zoom-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     img {
       max-width: 90vw;
-      max-height: 86vh;
+      max-height: 90vh;
       object-fit: contain;
+      user-select: none;
     }
   }
 
-  &__close {
-    top: 1.5rem; right: 1.5rem;
-    font-size: 20px;
-    padding: 0.5rem;
+  // Navigation arrows
+  :global(.swiper-button-prev),
+  :global(.swiper-button-next) {
+    color: rgba($white, 0.6);
+    transition: color 0.2s;
 
     &:hover { color: $accent; }
-  }
-
-  &__prev,
-  &__next {
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 48px;
-    font-weight: 200;
-    padding: 1rem;
-    opacity: 0.5;
-    line-height: 1;
-
-    &:hover {
-      opacity: 1;
-      color: $accent;
-    }
+    &::after { font-size: 20px; }
 
     @include mobile {
-      font-size: 32px;
-      padding: 0.5rem;
+      &::after { font-size: 14px; }
     }
   }
+}
 
-  &__prev { left: 1rem; }
-  &__next { right: 1rem; }
-
-  &__counter {
-    position: absolute;
-    bottom: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    color: $muted;
-  }
+.gallery-lightbox-counter {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: rgba($white, 0.5);
+  z-index: 10;
+  pointer-events: none;
 }
 </style>

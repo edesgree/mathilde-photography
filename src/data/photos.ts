@@ -33,11 +33,15 @@ export type CategoryKey = 'portraits' | 'fashion' | 'travels' | 'architectures' 
 // Landscape orientation recommended, ~2400×1400px.
 
 export const heroSlides: HeroSlide[] = [
+  { src: '/images/hero/hero-0.webp', alt: 'Portrait photography'},
   { src: '/images/hero/hero-1.webp', alt: 'Portrait photography by Mathilde Godard' },
   { src: '/images/hero/hero-2.webp', alt: 'Fashion photography' },
   { src: '/images/hero/hero-3.webp', alt: 'Travel photography' },
   { src: '/images/hero/hero-4.webp', alt: 'Architecture photography' },
-];
+  { src: '/images/hero/hero-5.webp', alt: 'Architecture photography' },
+  { src: '/images/hero/hero-6.webp', alt: 'Architecture photography' },
+  { src: '/images/hero/hero-7.webp', alt: 'Architecture photography' }
+]; 
 
 
 // ── Categories ─────────────────────────────
